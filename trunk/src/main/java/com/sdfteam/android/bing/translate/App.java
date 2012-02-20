@@ -28,6 +28,7 @@ public class App {
     private static final String PATH = Configuration.getString("configuration.values_path"); //$NON-NLS-1$
     private static final String FILENAME = Configuration.getString("configuration.filename"); //$NON-NLS-1$
     private static final String ENDLINE = Configuration.getString("configuration.endline"); //$NON-NLS-1$
+    private static final String WORKING_DIR = Configuration.getString("configuration.work_dir"); //$NON-NLS-1$
     private static final Language[] TARGET_LANGUAGES = /*getLanguages(); /* */ {Language.HUNGARIAN, Language.GERMAN, Language.DUTCH, Language.DANISH, Language.FRENCH, Language.SWEDISH, Language.SPANISH}; //*/
     private static final Pattern STRINGS_PATTERN = Pattern.compile(
             "<string\\s+name=\\\"([a-zA-Z0-9_]*)\\\">([^<]*)</string>", Pattern.CASE_INSENSITIVE | Pattern.DOTALL | Pattern.MULTILINE); //$NON-NLS-1$
@@ -38,10 +39,7 @@ public class App {
 
     public static void main(String[] args) throws Exception {
         Translate.setKey(API_KEY);
-        if (args.length < 1) {
-            throw new IllegalStateException("no parameters given"); //$NON-NLS-1$
-        }
-        String workingDirectory = args[0];
+        String workingDirectory = WORKING_DIR;
         String file = readFile(workingDirectory + PATH + Configuration.getString("configuration.path_separator") + FILENAME); //$NON-NLS-1$
         Matcher matcher = STRINGS_PATTERN.matcher(file);
         List<DroidString> strings = retrieveStrings(matcher);
